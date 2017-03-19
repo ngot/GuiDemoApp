@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script>
+        window.onerror = function (e) {
+            my.sendToLocal('error', e);
+        };
+
+        window.onload = function () {
+            // alert(navigator.userAgent);
+            my.sendToLocal('message', 'onlad 了啦！');
+            my.sendToLocal('message', 'UA:' + navigator.userAgent);
+        };
+
+        external.onmessage = function (e) {
+            my.sendToLocal('message', 'get  message from local : ' + e);
+        };
+
+        var my = window.my = function () { };
+
+        my.sendToLocal = function (name, param) {
+            var msg = {
+                name: name,
+                param: param
+            };
+            external.postMessage(JSON.stringify(msg));
+        };
+    </script>
+</head>
+
+<body>
+    This is just for testing!
+</body>
+
+</html>
