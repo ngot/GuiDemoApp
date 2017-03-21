@@ -4,22 +4,26 @@
     <meta charset="utf-8" />
     <script>
         window.onerror = function (e) {
-            my.sendToLocal('error', e);
+            messager.sendToLocal('error', e);
         };
 
+        document.title = 'DemoApp';
+
         window.onload = function () {
-            // alert(navigator.userAgent);
-            my.sendToLocal('message', 'onlad 了啦！');
-            my.sendToLocal('message', 'UA:' + navigator.userAgent);
+            var btn = document.getElementById('btn');
+            var txt = document.getElementById('txt');
+            btn.addEventListener('click', function () {
+                messager.sendToLocal('saveToFile', txt.value);
+            });
         };
 
         external.onmessage = function (e) {
-            my.sendToLocal('message', 'get  message from local : ' + e);
+            messager.sendToLocal('message', 'got  message from local : ' + e);
         };
 
-        var my = window.my = function () { };
+        var messager = window.messager = function () { };
 
-        my.sendToLocal = function (name, param) {
+        messager.sendToLocal = function (name, param) {
             var msg = {
                 name: name,
                 param: param
@@ -30,7 +34,12 @@
 </head>
 
 <body>
+    <div></div>
     This is just for testing!
+    <br>
+    <input type="text" id="txt" />
+    <br>
+    <button id="btn">Save</button>
 </body>
 
 </html>
