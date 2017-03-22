@@ -2,23 +2,9 @@ const gui = require('gui');
 const co = require('coroutine');
 const path = require('path');
 const fs = require('fs');
-const os = require('os');
 const http = require('http');
-const registry = require('registry');
 
-// const exe = path.basename(os.execPath);
-// const IEPATH = "SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BROWSER_EMULATION\\";
-// function setWebviewVersion(n){
-//     registry.set(
-//         registry.CURRENT_USER,
-// 	    `${IEPATH}${exe}`,
-// 	    n,
-//         registry.DWORD
-//     );
-// }
-// setWebviewVersion(11001);
-
-gui.setVersion(12001);
+gui.setVersion(gui.EDGE);
 
 const webview = gui.open(path.join(__dirname, 'index.html'), { debug: true });
 
@@ -34,8 +20,8 @@ var router = {
     "error": function (error) {
         console.error('[webview error]: ', error);
     },
-    "saveToFile": function (txt) {
-        fs.writeFile(path.join(__dirname, 'demo.txt'), txt);
+    "saveToFile": function (param) {
+        fs.writeFile(param.path, param.txt);
         console.log('[native log]: save to local file.');
     }
 };
@@ -48,6 +34,7 @@ function dispatch(msg) {
     }
 }
 
-webview.postMessage("哈哈哈！");
+webview.postMessage("message from native!");
 
+// avoid main process stop!
 co.current().join();

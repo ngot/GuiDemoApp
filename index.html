@@ -7,13 +7,18 @@
             messager.sendToLocal('error', e);
         };
 
-        document.title = 'DemoApp';
+        document.title = 'GuiDemoApp';
 
         window.onload = function () {
             var btn = document.getElementById('btn');
             var txt = document.getElementById('txt');
-            btn.addEventListener('click', function () {
-                messager.sendToLocal('saveToFile', txt.value);
+            var path = document.getElementById('path');
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                messager.sendToLocal('saveToFile', {
+                    txt: txt.value,
+                    path: path.value
+                });
             });
         };
 
@@ -34,12 +39,18 @@
 </head>
 
 <body>
-    <div></div>
-    This is just for testing!
+    <div>
+        input something to save:
+    </div>
     <br>
-    <input type="text" id="txt" />
-    <br>
-    <button id="btn">Save</button>
+    <form>
+        String&nbsp;&nbsp; :
+        <input type="text" id="txt">
+        <br> filepath :
+        <input type="text" id="path">
+        <br><br>
+        <button id="btn">Save</button>
+    </form>
 </body>
 
 </html>
